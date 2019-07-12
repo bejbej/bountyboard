@@ -1,0 +1,112 @@
+<style>
+    @font-face {
+        font-family: console;
+        src: url("./clacon.ttf");
+    }
+
+    body {
+        margin: 0;
+        display: flex;
+        background-color: #282828;
+        color: #33ff33;
+        font-family: console;
+        font-size: calc(4.5vh);
+        overflow: hidden;
+    }
+    main {
+        margin: auto;
+        width: 80ch;
+    }
+    div {
+        white-space: pre;
+    }
+
+    div.inverse {
+        color: #282828;
+        background-color: #33ff33;
+    }
+</style>
+<body>
+    <main id=main>
+        <div>id  │job                                                                 │reward</div>
+        <div>────┴────────────────────────────────────────────────────────────────────┴──────</div>
+    </main>
+</body>
+<script>
+    var digit = () => Math.floor(Math.random() * 16).toString("16").toUpperCase();
+    var id = () => digit() + digit() + digit() + digit();
+
+    var amalgamate = (quest, reward) => {
+        return id() + " " + quest.substring(0, 68).padEnd(68) + " " + reward.substring(0, 6).padStart("6");
+    }
+
+    var generate = () => {
+        let lowRewards = ["25¢", "50¢", "69¢", "75¢", "$1.00", "$1.50", "$2.00", "$2.50", "$3.00", "$3.50", "$4.00", "$4.50", "$5.00"];
+        
+        let mediumRewards = ["$10.00", "$12.00", "$15.00", "$17.00", "$20.00", "$25.00"];
+        
+        let highRewards = ["$100", "$200", "$1000"];
+
+        let lowQuests = [
+            "I forgot my password. Could someone reset it for me?",
+            "I'm failing school. Change my grade so I can pass.",
+            "I think my wife is cheating on me. Hack her phone to prove it.",
+            "My neighbor is such an asshole. Egg his car. I will provide the eggs. I am not respoinsible for you getting caught.",
+            "I need someone who is good with sound to help me on my new mix tape.",
+            "Looking for love. Must be submissive. Must laugh at all my jokes. Must not look at other men.",
+            "My daughter spends too much time playing ASCIICRAFT. I need you to enter the game and rescue her.",
+            "Will pay for drugs. Any will do.",
+            "I lost my floopy with a copy of lemmings. Does someone know of a good darknet set to pirate another copy?",
+            "NEEDED: a condom and an extra pillow ASAP.",
+            "Can someone help me find my phone? I think I lost it near Willow Park."
+        ];
+        
+        let mediumQuests = [
+            "Hit me up for a good time. Open 8:15 - 14:45 every day.",
+            "I need a security system installed at my business. Morning installation preferred.",
+            "The hair salon on 3rd street is up to some shady stuff. Get me some dirt on them.",
+            "Nokia needs your help to test out the new MKIII urban pacification tear gas.",
+            "A shipment of underground processors needs to be picked up. Location will be provided upon accepting.",
+            "Sr. Pink needs a black box smuggled out of Air and Space Museum by next Thursday."
+        ];
+        
+        let highQuests = [
+            "Infiltrate Time & Space Warner and place survellience devices in all listed locations.",
+            "Pick Sally up from school and make sure she gets home. Additional details upon accepting.",
+            "A pizza will be served at tonight's banquet. Sardines are required. Bring me some.",
+            "Steal some dinosaur DNA from the new Jurassic Universe park.",
+            "Wanted: do you know of a senteint AI. Plase come alone.",
+            "[redacted]"
+        ];
+
+        let x = Math.random();
+        let quests = lowQuests;
+        let rewards = lowRewards;
+        if (x < .2) {
+            quests = mediumQuests;
+            rewards = mediumRewards;
+        }
+        else if (x < .25) {
+            quests = highQuests;
+            rewards = highRewards;
+        }
+        let quest = quests[Math.floor(Math.random()*quests.length)];
+        let reward = rewards[Math.floor(Math.random()*rewards.length)];
+        let div = document.createElement("div");
+        div.textContent = amalgamate(quest, reward);
+        document.getElementById("main").appendChild(div);
+
+        let duration = Math.floor(Math.random() * 90000) + 30000; // 30s to 2m
+        window.setTimeout(() => {
+            div.className = "inverse";
+            window.setTimeout(() => {
+                document.getElementById("main").removeChild(div);
+                generate();
+            }, 2000);
+        }, duration);
+    }
+
+    for (var i = 0; i < 22; ++i) {
+        generate();
+    }
+</script>
